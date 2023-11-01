@@ -1,0 +1,181 @@
+{% extends 'layout.html' %}
+{% block title %}
+{{ super() }}
+    Partido
+ 
+{% endblock %}
+
+{% block content%}
+<div class="px-3 py-2 border-bottom ">
+    <div class="container d-flex justify-content-evenly p-1">
+        <a href="#alineaciones">Alineación</a>
+        <a href="#caraACara">Cara a Cara</a>        
+        <a href="#">Estrellas</a>
+        <a href="#">Estadisticas</a>
+        <a href="#">Apuestas</a>
+
+    </div>
+  </div>  
+<div class="bg-white my-5">
+    <div class="container" >
+        <div class="d-flex flex-column align-items-center">
+            <div class="d-flex flex-row"><h1 id="partido" class="justify-content-center "><img src="{{match[0].team_home_badge}}" class="mx-5" style="width:100px" >{{match[0].match_hometeam_name}} - {{match[0].match_awayteam_name}}<img src="{{match[0].team_away_badge}}" class="mx-5" style="width:100px"></h1></div>
+                {% if  match[0].match_live == "0" %}
+                    <h2 id="resultado">Sin Comenzar</h2>
+                {% else %}
+                    <h2 id="resultado">{{match[0].match_hometeam_score}} - {{match[0].match_awayteam_score}}</h2>
+                    {% if match[0].match_status.isnumeric() %}
+                        <h5> {{match[0].match_status}}' </h5>
+                    {% else %}
+                        <h5> {{match[0].match_status}}</h5>
+                    {% endif %}
+                {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- ALINEACIONES -->
+<div class="bg-body-secondary">
+    <!--<div class="container d-flex justify-content-center">
+        <svg width="624" height="368"> 
+            <rect x="0" y="0" class="grass___1jQ2t" style="stroke: #8fbfa3;fill: #14854d;" width="624" height="368"></rect>
+            <rect x="8" y="8" class="line___2-SFG" style="stroke: #8fbfa3;fill: #14854d;"width="608" height="352"></rect>
+            <circle class="line___2-SFG" cx="312" cy="184" r="40" style="stroke: #8fbfa3;fill: #14854d;"></circle>
+            <circle class="line___2-SFG" cx="48" cy="184" r="40" style="stroke: #8fbfa3;fill: #14854d;"></circle>
+            <rect x="8" y="102" class="area___3kb_p" width="64" height="164" style="stroke: #8fbfa3;fill: #14854d;"></rect>
+            <rect x="8" y="152" class="line___2-SFG" width="24" height="64" style="stroke: #8fbfa3;fill: #14854d;" ></rect>
+            <circle class="line___2-SFG" cx="576" cy="184" r="40" style="stroke: #8fbfa3;fill: #14854d;"></circle>
+            <rect x="552" y="112" class="area___3kb_p" width="64" height="144" style="stroke: #8fbfa3;fill: #14854d;"></rect>
+            <rect x="592" y="152" class="line___2-SFG" width="24" height="64" style="stroke: #8fbfa3;fill: #14854d;"></rect>
+            <line class="line___2-SFG" x1="312" y1="8" x2="312" y2="360" style="stroke: #8fbfa3;fill: #14854d;"></line>
+        </svg>
+    </div>  -->
+        <!--<svg> 
+        <rect x="0" y="0" class="grass___1jQ2t" style="stroke: #8fbfa3;fill: #14854d;" width="312" height="184"></rect>
+        <rect x="4" y="4" class="line___2-SFG" style="stroke: #8fbfa3;fill: #14854d;"width="304" height="176"></rect>
+        <circle class="line___2-SFG" cx="156" cy="92" r="20" style="stroke: #8fbfa3;fill: #14854d;"></circle>
+        <circle class="line___2-SFG" cx="24" cy="92" r="20" style="stroke: #8fbfa3;fill: #14854d;"></circle>
+        <rect x="4" y="51" class="area___3kb_p" width="32" height="82" style="stroke: #8fbfa3;fill: #14854d;"></rect>
+        <rect x="4" y="76" class="line___2-SFG" width="12" height="32" style="stroke: #8fbfa3;fill: #14854d;" ></rect>
+        <circle class="line___2-SFG" cx="288" cy="92" r="20" style="stroke: #8fbfa3;fill: #14854d;"></circle>
+        <rect x="276" y="56" class="area___3kb_p" width="32" height="72" style="stroke: #8fbfa3;fill: #14854d;"></rect>
+        <rect x="296" y="76" class="line___2-SFG" width="12" height="32" style="stroke: #8fbfa3;fill: #14854d;"></rect>
+        <line class="line___2-SFG" x1="156" y1="4" x2="156" y2="180" style="stroke: #8fbfa3;fill: #14854d;"></line>
+    </svg>-->
+    <div class="container p-5">
+        <div class="row">
+            <div class="col m-3" >
+                <h2><a href="{{ url_for('equipo', id=match[0].match_hometeam_id) }}">{{ match[0].match_hometeam_name }}</a>
+            </div>   
+            <div class="col m-3">   
+                <h2><a href="equipo/{{match[0].match_awayteam_id}}">{{match[0].match_awayteam_name}}</a></h2>
+            </div> 
+        </div>
+        <div class="d-flex flex-row" id="alineaciones">
+
+            <table class="table" style="margin-right:50px;">
+
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th scope="col">Jugador</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for player in match[0].lineup.home.starting_lineups %}
+                        <tr>
+                            <th scope="row">{{player.lineup_number}}</th>
+                            <td>{{player.lineup_player}}</td>
+                            <td>
+                                {% for card in match[0].cards%}
+                                    {% if card["home_player_id"] == player["player_key"] %}
+                                        <div class="d-flex">
+                                            {% if "yellow" in card["card"] %}
+                                                <div style="width:15px; height:20px; background-color:yellow"></div> 
+                                            {% else %}
+                                                <div style="width:15px; height:20px; background-color:red"></div>
+                                            {% endif %}
+                                            <span class="mx-2" style="align-align-items-md-start "> {{card["time"]}}' <span>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th scope="col">Jugador</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for player in match[0].lineup.away.starting_lineups %}
+                        <tr>
+                            <th scope="row">{{player.lineup_number}}</th>
+                            <td>{{player.lineup_player}}</td>
+                            <td>
+                                {% for card in match[0].cards%}
+                                    {% if card["away_player_id"] == player["player_key"] %}
+                                        <div class="d-flex">
+                                            {% if "yellow" in card["card"] %}
+                                                <div style="width:15px; height:20px; background-color:yellow"></div> 
+                                            {% else %}
+                                                <div style="width:15px; height:20px; background-color:red"></div>
+                                            {% endif %}
+                                            <span class="mx-2" style="align-align-items-md-start "> {{card["time"]}}' <span>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // La página se recargará cada 6 segundos (60000 milisegundos)
+    setTimeout(function () {
+        location.reload();
+    }, 60000);
+</script>
+<!--CARA A CARA-->
+<div id="caraACara" class="bg-body-white">
+    <div class="d-flex flex-row justify-content-center mt-3">
+        <h2> Cara a cara</h2>
+    </div>
+    <hr>
+    <div class="container p-5 d-flex flex-row justify-content-around">
+        
+
+        
+        {% for partido in h2h.firstTeam_VS_secondTeam %}
+            {% if partido == '' %}
+                <h3>No hay datos de enfrentamientos entre estos equipos</h3>
+            {% else %}
+             <div id="{{partido.match_id}}" class="d-flex flex-column rounded p-3 bg-primary text-white"> <a>
+                    <div class="d-flex flex-row">
+                        <img src="{{partido.team_home_badge}}" style="width:50px" class="mx-1"><h5 class="mx-3">{{partido.match_hometeam_score}}</h5> - <h5 class="mx-3">{{partido.match_awayteam_score}}</h5><img src="{{partido.team_away_badge}}" style="width:50px" class="mx-1">
+                    </div>
+                    <div class="d-flex flex-row justify-content-center ">
+                        {{partido.match_date}}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        
+    </div>
+</div>
+<!-- ESTRELLAS -->
+
+{%endblock%}

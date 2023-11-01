@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block title %}
+{{ super() }}
+   Insertar Partido
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-3 mx-auto">
+            <h1>Insertar Partido</h1>
+        </div>
+    </div>
+    <hr>
+    <div  class="row">
+        <form action="" method="POST"class="d-flex flex-row">
+            <label class="p-2">Local</label>
+            <input class="form-control" type="text" class="col-3" placeholder="Local" aria-label="default input example" name="local">
+    
+            <label class="p-2">Visitante</label>
+            <input class="form-control" type="text" class="col-3" placeholder="Visitante" aria-label="default input example" name="visitante">
+    
+            <label class="p-2">Resultado</label>
+            <input class="form-control" type="text" class="col-1" placeholder="Resultado" aria-label="default input example" name="resultado">
+
+            <input class="col-1 m-2" type="submit" value="Guardar" >
+        </form>
+    </div>
+</div>
+    
+{% endblock %}

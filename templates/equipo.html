@@ -1,0 +1,169 @@
+{% extends 'layout.html' %}
+{% block title %}
+{{ super() }}
+   EQUIPOS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="d-flex flex-row justify-content-center ">
+        <img class="mt-5 ms-3" style = "width:25%" src="{{team.team_badge}}">
+        <div class="d-flex flex-column  ms-5  my-2 align-items-center justify-content-evenly ">
+            <div class="d-flex flex-column  my-2 align-items-center justify-content-evenly" >
+                <h1 class="display-1 ms-4">{{team.team_name}}</h1>
+                <div class="d-flex flex-row align-items-center mt-2 ">
+                    <h6>Fundacion:</h6><span class="ms-2 pb-2">{{team.team_founded}}</sp> 
+                </div>
+                <div class="d-flex flex-row align-items-center  ">
+                    <h6 class="">Estadio:</h6><span class="ms-2 pb-2">{{team.venue.venue_name}}</span>
+                </div>
+                <div class="d-flex flex-row align-items-center  ">
+                    <h6 class="">Capacidad:</h6><span class="ms-2 pb-2">{{team.venue.venue_capacity}} espectadores</span>
+                </div>
+                <div class="d-flex flex-row align-items-center  ">
+                    <h6 class="">Dirección:</h6><span class="ms-2 pb-2">{{team.venue.venue_address}}</span>
+                </div>
+                <div class="d-flex flex-row align-items-center  ">
+                    <h6 class="">Ciudad:</h6><span class="ms-2 pb-2">{{team.venue.venue_city}}</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-row mt-5" id="alineaciones">
+
+        <table class="table" style="margin-right:50px;">
+
+                <thead>
+                    <tr>
+                        <th>Porteros</th>                  
+                        <th>Nº</th>
+                        <th scope="col">Jugador</th>
+                        <th>Edad</th>
+                        <th>Partidos</th>                  
+                        <th><img src="C:\Users\aisca\Documents\DAW\Bet\resources"></th>
+                        <th scope="col">Amarillas</th>
+                        <th>Rojas</th>
+
+                    </tr>
+                </thead>
+
+                <tbody class="table-group-divider">
+                    {% for player in team.players %}
+                        {% if player.player_type == "Goalkeepers" %}
+                            <tr>
+                                <th scope="row">{%if player.player_image != ""%}<img style="width:25%;height:25%" src="{{player.player_image}}">{% endif %}</th>
+                                <td>{{player.player_number}}</td>
+                                <td>{{player.player_name}}</td>
+                                <td>{{player.player_age}}</td>
+                                <td>{{player.player_match_played}}</td>
+                                <td>{{player.player_goals_conceded}}</td>
+                                <td>{{player.player_yellow_cards}}</td>
+                                <td>{{player.player_red_cards}}</td>
+                                <td>{{player.player_type}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+
+                <thead>
+                    <tr>
+                        <th>Defensas</th>                  
+                        <th>Nº</th>
+                        <th scope="col">Jugador</th>
+                        <th>Edad</th>
+                        <th>Partidos</th>                  
+                        <th>Goles</th>
+                        <th scope="col">Amarillas</th>
+                        <th>Rojas</th>
+
+                    </tr>
+                </thead>
+
+                <tbody class="table-group-divider">
+                    {% for player in team.players %}
+                        {% if player.player_type == "Defenders" %}
+                            <tr>
+                                <th scope="row" >{% if player.player_number <= "25" %}<img style="width:25%;height:25%"  src="{{player.player_image}}">{%endif%}</th>
+                                <td>{{player.player_number}}</td>
+                                <td>{{player.player_name}}</td>
+                                <td>{{player.player_age}}</td>
+                                <td>{{player.player_match_played}}</td>
+                                <td>{{player.player_goals}}</td>
+                                <td>{{player.player_yellow_cards}}</td>
+                                <td>{{player.player_red_cards}}</td>
+                                <td>{{player.player_type}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+
+                <thead>
+                    <tr>
+                        <th>Centrocampistas</th>                  
+                        <th>Nº</th>
+                        <th scope="col">Jugador</th>
+                        <th>Edad</th>
+                        <th>Partidos</th>                  
+                        <th>Goles</th>
+                        <th scope="col">Amarillas</th>
+                        <th>Rojas</th>
+
+                    </tr>
+                </thead>
+
+                <tbody class="table-group-divider">
+                    {% for player in team.players %}
+                        {% if "Mid" in player.player_type %}
+                            <tr>
+                                <th scope="row">{%if player.player_image != ""%}<img style="width:25%;height:25%" src="{{player.player_image}}">{%endif%}</th>
+                                <td>{{player.player_number}}</td>
+                                <td>{{player.player_name}}</td>
+                                <td>{{player.player_age}}</td>
+                                <td>{{player.player_match_played}}</td>
+                                <td>{{player.player_goals}}</td>
+                                <td>{{player.player_yellow_cards}}</td>
+                                <td>{{player.player_red_cards}}</td>
+                                <td>{{player.player_type}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+                <thead>
+                    <tr>
+                        <th>Delanteros</th>                  
+                        <th>Nº</th>
+                        <th scope="col">Jugador</th>
+                        <th>Edad</th>
+                        <th>Partidos</th>                  
+                        <th>Goles</th>
+                        <th scope="col">Amarillas</th>
+                        <th>Rojas</th>
+
+                    </tr>
+                </thead>
+
+                <tbody class="table-group-divider">
+                    {% for player in team.players %}
+                        {% if "Forwards" in player.player_type %}
+                            <tr>
+                                <th scope="row">{%if player.player_image != ""%}<img style="width:25%;height:25%" src="{{player.player_image}}">{%endif%}</th>
+                                <td>{{player.player_number}}</td>
+                                <td>{{player.player_name}}</td>
+                                <td>{{player.player_age}}</td>
+                                <td>{{player.player_match_played}}</td>
+                                <td>{{player.player_goals}}</td>
+                                <td>{{player.player_yellow_cards}}</td>
+                                <td>{{player.player_red_cards}}</td>
+                                <td>{{player.player_type}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+
+        </table>
+</div>
+    
+{% endblock %}

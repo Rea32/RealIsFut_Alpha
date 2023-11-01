@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+{% block title %}
+{{ super() }}
+    Buscador de Eventos
+{% endblock %}
+    
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3 mx-auto">
+               <h1>Buscador de Eventos</h1>
+            </div>
+        </div>
+        <hr>
+        <div  class="row">
+             <!--<h3>{{events.match_awayteam_score}} - {{competicion}}</h3>-->
+            <form  method="POST"class="d-flex flex-row">
+                <select name="pais" id="pais" class="form-select w-25 mx-3 mb-3" aria-label="Default select example" onchange="this.form.submit()">
+                    <option value="0">Seleccione pais</option>
+                    {% for country in countries %}
+                        {% if pais == country.country_id %}
+                            <option value="{{country.country_id}}" selected>{{country.country_name}}</option>
+                        {% else %}
+                            <option value="{{country.country_id}}"> {{country.country_name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                  {% if mostrar_competicion != 0 %}
+                  <select name="competicion" id="competicion" class="form-select w-25 mx-3 mb-3 " aria-label="Default select example" onchange="this.form.submit()">
+                    <option value="0" selected>Seleccione competicion</option>
+                    {% for competition in competitions %}
+                        {% if competicion == competition.league_id %}
+                            <option selected value="{{competition.league_id}}">{{competition.league_name}}</option>
+                        {% else %}
+                            <option value="{{competition.league_id}}">{{competition.league_name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                   
+                  </select>
+                  {% endif %}
+                  
+            </form>
+        </div>
+        {% if competicion != "0" %}
+            <table class="table">
+                <thead>                    
+                    <tr>
+                    <th scope="col">Comienzo</th>
+                    <th scope="col">Partido</th>
+                    <th scope="col">Resultado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for event in events %}
+                    
+                    <tr>
+                        
+                            <td scope="row" class="comienzo"><a href="partido/{{event.match_id}}">{{event.match_time}}</a></td>
+                            <td class="partido"><a href="partido/{{event.match_id}}">{{event.match_hometeam_name}} - {{event.match_awayteam_name}}</a></td>
+                            <td class="resultado"><a href="partido/{{event.match_id}}">
+                                {% if event.match_hometeam_score == "" %}
+                                    Sin Comenzar
+                                {% else %}
+                                    {{event.match_hometeam_score}} - {{event.match_awayteam_score}}
+                                {% endif %}
+                                </a>
+                            </td>
+                        
+                    </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+{% endblock %}
